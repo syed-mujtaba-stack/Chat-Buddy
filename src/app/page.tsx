@@ -22,10 +22,19 @@ const createNewSession = (): ChatSession => ({
 export default function Home() {
   const { toast } = useToast();
   const [sessions, setSessions] = useLocalStorage<ChatSession[]>('chatSessions', [createNewSession()]);
-  const [activeSessionId, setActiveSessionId] = useLocalStorage<string | null>('activeChatSessionId', sessions[0]?.id ?? null);
+  const [activeSessionId, setActiveSessionId] = useLocalStorage<string | null>('activeChatSessionId', null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [audioPlayer, setAudioPlayer] = React.useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isClient, setIsClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+    if (sessions.length > 0 && !activeSessionId) {
+      setActiveSessionId(sessions[0].id);
+    }
+  }, [sessions, activeSessionId, setActiveSessionId]);
+
 
   const [apiKey, setApiKey] = useLocalStorage('apiKey', '');
   const [model, setModel] = useLocalStorage(
@@ -214,8 +223,8 @@ export default function Home() {
     }
   };
 
-  if (!activeSession) {
-    return null;
+  if (!isClient || !activeSession) {
+    return null; // or a loading spinner
   }
 
   return (
