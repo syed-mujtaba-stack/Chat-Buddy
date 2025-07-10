@@ -22,7 +22,7 @@ const RetainConversationContextInputSchema = z.object({
   chatHistory: z.array(MessageSchema).optional().describe('The history of the conversation as JSON array.'),
   systemPrompt: z.string().optional().describe('System prompt to guide the conversation'),
   model: z.string().optional().describe('The model selected by the user'),
-  fileContent: z.string().optional().describe('The content of an uploaded file.'),
+  fileContent: z.string().nullable().optional().describe('The content of an uploaded file.'),
 });
 
 export type RetainConversationContextInput = z.infer<typeof RetainConversationContextInputSchema>;
