@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction, SidebarSeparator, SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { MessageSquarePlus, Trash2, Code, Component } from 'lucide-react';
+import { MessageSquarePlus, Trash2, Code, Component, PencilRuler, Image as ImageIcon, BarChart2 } from 'lucide-react';
 import Link from 'next/link';
 import { type ChatSession } from '@/lib/types';
 import { usePathname } from 'next/navigation';
@@ -14,6 +14,12 @@ const courses = [
     { name: 'JavaScript', icon: Code, path: '/course/javascript' },
     { name: 'C++', icon: Code, path: '/course/cplusplus' },
     { name: 'React', icon: Component, path: '/course/react' },
+];
+
+const tools = [
+    { name: 'Story Generator', icon: PencilRuler, path: '/story-generator' },
+    { name: 'Image Generator', icon: ImageIcon, path: '/image-generator' },
+    { name: 'Data Analyst', icon: BarChart2, path: '/data-analyst' },
 ];
 
 interface MainLayoutProps {
@@ -51,6 +57,25 @@ export function MainLayout({ children, sessions, activeSessionId, setActiveSessi
                                         >
                                             <course.icon className="w-4 h-4 mr-2" />
                                             {course.name}
+                                        </SidebarMenuButton>
+                                    </Link>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroup>
+                    <SidebarSeparator />
+                     <SidebarGroup>
+                        <SidebarGroupLabel>Tools</SidebarGroupLabel>
+                        <SidebarMenu>
+                            {tools.map(tool => (
+                                <SidebarMenuItem key={tool.path}>
+                                    <Link href={tool.path} passHref>
+                                        <SidebarMenuButton 
+                                            className="w-full justify-start"
+                                            isActive={pathname === tool.path}
+                                        >
+                                            <tool.icon className="w-4 h-4 mr-2" />
+                                            {tool.name}
                                         </SidebarMenuButton>
                                     </Link>
                                 </SidebarMenuItem>
