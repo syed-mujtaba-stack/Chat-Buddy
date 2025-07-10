@@ -78,6 +78,11 @@ export default function ImageGeneratorPage() {
                            </SidebarMenuButton>
                        </Link>
                     </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <Link href="/data-analyst" passHref>
+                        <SidebarMenuButton className="w-full justify-start">Data Analyst</SidebarMenuButton>
+                      </Link>
+                    </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarContent>
         </Sidebar>
