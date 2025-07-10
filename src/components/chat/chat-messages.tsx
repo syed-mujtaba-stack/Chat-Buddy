@@ -11,9 +11,11 @@ interface ChatMessagesProps {
   messages: Message[];
   isLoading: boolean;
   onRegenerate: () => void;
+  onPlayAudio: (text: string) => void;
+  isPlaying: boolean;
 }
 
-export function ChatMessages({ messages, isLoading, onRegenerate }: ChatMessagesProps) {
+export function ChatMessages({ messages, isLoading, onRegenerate, onPlayAudio, isPlaying }: ChatMessagesProps) {
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const viewportRef = React.useRef<HTMLDivElement>(null);
 
@@ -26,11 +28,11 @@ export function ChatMessages({ messages, isLoading, onRegenerate }: ChatMessages
   const lastMessageIsAssistant = messages.length > 0 && messages[messages.length-1].role === 'assistant';
 
   return (
-    <ScrollArea className="h-full" ref={scrollAreaRef} viewportRef={viewportRef}>
+    <ScrollArea className="h-full" viewportRef={viewportRef}>
       <div className="w-full max-w-4xl p-4 mx-auto space-y-6 sm:p-6">
         {messages.length > 0 ? (
           messages.map((message, index) => (
-            <ChatMessage key={index} message={message} />
+            <ChatMessage key={index} message={message} onPlayAudio={onPlayAudio} isPlaying={isPlaying} />
           ))
         ) : (
           <div className="flex flex-col items-center justify-center h-[calc(100vh-150px)] text-center text-muted-foreground">
@@ -41,7 +43,7 @@ export function ChatMessages({ messages, isLoading, onRegenerate }: ChatMessages
             </p>
           </div>
         )}
-        {isLoading && (
+        {isLoading && messages[messages.length-1]?.role === 'user' && (
           <div className="flex items-start gap-4 animate-fade-in">
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground">
               <Bot className="w-5 h-5" />

@@ -2,18 +2,21 @@ import { type Message } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
-import { Bot, User } from 'lucide-react';
+import { Bot, User, Volume2, Pause } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface ChatMessageProps {
   message: Message;
+  onPlayAudio: (text: string) => void;
+  isPlaying: boolean;
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message, onPlayAudio, isPlaying }: ChatMessageProps) {
   const isUser = message.role === 'user';
   return (
     <div
       className={cn(
-        'flex items-start gap-4 animate-fade-in',
+        'group flex items-start gap-4 animate-fade-in',
         isUser && 'justify-end'
       )}
     >
@@ -40,6 +43,16 @@ export function ChatMessage({ message }: ChatMessageProps) {
             <User className="w-5 h-5" />
           </AvatarFallback>
         </Avatar>
+      )}
+      {!isUser && (
+         <Button 
+            variant="ghost" 
+            size="icon" 
+            className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => onPlayAudio(message.content)}
+         >
+            {isPlaying ? <Pause className="w-4 h-4"/> : <Volume2 className="w-4 h-4"/>}
+         </Button>
       )}
     </div>
   );

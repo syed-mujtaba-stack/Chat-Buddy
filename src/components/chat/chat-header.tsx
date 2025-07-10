@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SettingsDialog, type SettingsProps } from './settings-dialog';
+import { SidebarTrigger } from '../ui/sidebar';
 
 interface ChatHeaderProps {
   onClear: () => void;
@@ -28,6 +29,7 @@ export function ChatHeader({ onClear, onSave, settings }: ChatHeaderProps) {
   return (
     <header className="flex items-center justify-between p-4 border-b border-border">
       <div className="flex items-center gap-2">
+        <SidebarTrigger className="md:hidden" />
         <Bot className="w-6 h-6 text-accent" />
         <h1 className="text-xl font-bold font-headline">Python Chat Buddy</h1>
       </div>

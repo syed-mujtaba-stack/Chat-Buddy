@@ -22,6 +22,7 @@ const RetainConversationContextInputSchema = z.object({
   chatHistory: z.array(MessageSchema).optional().describe('The history of the conversation as JSON array.'),
   systemPrompt: z.string().optional().describe('System prompt to guide the conversation'),
   model: z.string().optional().describe('The model selected by the user'),
+  fileContent: z.string().optional().describe('The content of an uploaded file.'),
 });
 
 export type RetainConversationContextInput = z.infer<typeof RetainConversationContextInputSchema>;
@@ -45,9 +46,19 @@ const retainConversationContextPrompt = ai.definePrompt({
   output: {
     schema: RetainConversationContextOutputSchema,
   },
-  prompt: `You are a helpful AI assistant.  Use the chat history to respond in a relevant way to the user.  
-
+  prompt: `You are a helpful AI assistant.  Use the chat history to respond in a relevant way to the user.
+{{#if systemPrompt}}
 System prompt: {{systemPrompt}}
+{{/if}}
+
+{{#if fileContent}}
+The user has provided the following file content for context. Use this file to answer the user's prompt.
+
+File Content:
+\`\`\`
+{{fileContent}}
+\`\`\`
+{{/if}}
 
 Chat History:
 {{#each chatHistory}}

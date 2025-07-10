@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/retain-conversation-context.ts';
 import '@/ai/flows/generate-response.ts';
+import '@/ai/flows/text-to-speech.ts';
