@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Settings } from 'lucide-react';
@@ -34,7 +35,7 @@ export interface SettingsProps {
 }
 
 const models = [
-  { id: 'googleai/gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash' },
+  { id: 'googleai/gemini-2.0-flash', name: 'Gemini 2.0 Flash' },
   { id: 'googleai/gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro' },
   { id: 'googleai/gemini-1.0-pro', name: 'Gemini 1.0 Pro' },
 ];

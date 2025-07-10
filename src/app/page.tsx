@@ -47,7 +47,7 @@ export default function Home() {
   const [apiKey, setApiKey] = useLocalStorage('apiKey', '');
   const [model, setModel] = useLocalStorage(
     'model',
-    'googleai/gemini-1.5-flash-latest'
+    'googleai/gemini-2.0-flash'
   );
   const [systemPrompt, setSystemPrompt] = useLocalStorage(
     'systemPrompt',
