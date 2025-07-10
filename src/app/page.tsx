@@ -9,9 +9,10 @@ import { useToast } from '@/hooks/use-toast';
 import { ChatMessages } from '@/components/chat/chat-messages';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ChatHeader } from '@/components/chat/chat-header';
-import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction, SidebarTrigger } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { MessageSquarePlus, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 
 const createNewSession = (): ChatSession => ({
   id: Date.now().toString(),
@@ -33,7 +34,7 @@ export default function Home() {
     if (sessions.length > 0 && !activeSessionId) {
       setActiveSessionId(sessions[0].id);
     }
-  }, [sessions, activeSessionId, setActiveSessionId]);
+  }, []); // Run only once on client mount
 
 
   const [apiKey, setApiKey] = useLocalStorage('apiKey', '');
@@ -47,8 +48,9 @@ export default function Home() {
   );
 
   const activeSession = React.useMemo(() => {
+    if (!isClient) return null;
     return sessions.find(s => s.id === activeSessionId) || sessions[0];
-  }, [sessions, activeSessionId]);
+  }, [sessions, activeSessionId, isClient]);
 
   const updateSessionMessages = (sessionId: string, messages: Message[]) => {
     setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, messages } : s));
@@ -231,6 +233,7 @@ export default function Home() {
     <div className="flex flex-row h-screen bg-background text-foreground">
       <Sidebar>
         <SidebarHeader>
+           <h2 className="text-lg font-semibold p-2">Chats</h2>
           <Button variant="outline" onClick={handleNewSession} className="w-full">
             <MessageSquarePlus className="mr-2" /> New Chat
           </Button>
@@ -251,6 +254,27 @@ export default function Home() {
                         </SidebarMenuAction>
                     </SidebarMenuItem>
                 ))}
+            </SidebarMenu>
+        </SidebarContent>
+        <SidebarHeader>
+            <h2 className="text-lg font-semibold p-2">Features</h2>
+        </SidebarHeader>
+        <SidebarContent>
+            <SidebarMenu>
+                <SidebarMenuItem>
+                    <Link href="/" passHref>
+                       <SidebarMenuButton className="w-full justify-start" isActive={true}>
+                            Code Assistant
+                       </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                   <Link href="/image-generator" passHref>
+                       <SidebarMenuButton className="w-full justify-start">
+                            Image Generator
+                       </SidebarMenuButton>
+                   </Link>
+                </SidebarMenuItem>
             </SidebarMenu>
         </SidebarContent>
       </Sidebar>
