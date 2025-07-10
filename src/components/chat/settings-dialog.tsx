@@ -58,13 +58,12 @@ export function SettingsDialog({
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
           <DialogDescription>
-            Configure your chat preferences. All settings are saved locally in
-            your browser.
+            Configure your AI Tutor preferences. All settings are saved locally.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-6 py-4">
           <div className="space-y-2">
-            <Label htmlFor="api-key">API Key</Label>
+            <Label htmlFor="api-key">API Key (Optional)</Label>
             <Input
               id="api-key"
               type="password"
@@ -73,7 +72,7 @@ export function SettingsDialog({
               onChange={(e) => setApiKey(e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
-              The current backend is pre-configured and does not use this key. This is a placeholder for future integrations.
+              The current backend is pre-configured and does not require a key.
             </p>
           </div>
           <div className="space-y-2">
@@ -92,10 +91,10 @@ export function SettingsDialog({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="system-prompt">System Prompt</Label>
+            <Label htmlFor="system-prompt">Tutor Persona</Label>
             <Textarea
               id="system-prompt"
-              placeholder="Define the assistant's role..."
+              placeholder="Define the tutor's persona..."
               value={systemPrompt}
               onChange={(e) => setSystemPrompt(e.target.value)}
               className="min-h-[100px]"

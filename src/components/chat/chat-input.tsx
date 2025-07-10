@@ -123,7 +123,7 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask me to write, explain, or fix some code..."
+          placeholder="Ask your tutor a question..."
           className="flex-1 resize-none max-h-48"
           rows={1}
           disabled={isLoading}

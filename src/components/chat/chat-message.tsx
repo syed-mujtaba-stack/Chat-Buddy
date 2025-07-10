@@ -2,7 +2,7 @@ import { type Message } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
-import { Bot, User, Volume2, Pause } from 'lucide-react';
+import { Bot, User, Volume2, Pause, GraduationCap } from 'lucide-react';
 import { Button } from '../ui/button';
 
 interface ChatMessageProps {
@@ -21,9 +21,9 @@ export function ChatMessage({ message, onPlayAudio, isPlaying }: ChatMessageProp
       )}
     >
       {!isUser && (
-        <Avatar className="w-8 h-8">
-          <AvatarFallback className="bg-accent text-accent-foreground">
-            <Bot className="w-5 h-5" />
+        <Avatar className="w-8 h-8 bg-primary text-primary-foreground">
+          <AvatarFallback>
+            <GraduationCap className="w-5 h-5" />
           </AvatarFallback>
         </Avatar>
       )}

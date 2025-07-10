@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { type Message } from '@/lib/types';
 import { ChatMessage } from './chat-message';
-import { Bot, Loader2, RefreshCw } from 'lucide-react';
+import { Bot, Loader2, RefreshCw, GraduationCap } from 'lucide-react';
 import { Button } from '../ui/button';
 
 interface ChatMessagesProps {
@@ -36,16 +36,16 @@ export function ChatMessages({ messages, isLoading, onRegenerate, onPlayAudio, i
           ))
         ) : (
           <div className="flex flex-col items-center justify-center h-[calc(100vh-150px)] text-center text-muted-foreground">
-            <Bot className="w-16 h-16 mb-4 text-accent" />
-            <h2 className="text-2xl font-semibold">Welcome to your AI Code Assistant</h2>
+            <GraduationCap className="w-16 h-16 mb-4 text-primary" />
+            <h2 className="text-2xl font-semibold">Welcome to your AI Tutor</h2>
             <p className="mt-2">
-              Ask me to write, explain, or fix code in any language.
+              Ask me a question about any programming topic to get started.
             </p>
           </div>
         )}
         {isLoading && messages[messages.length-1]?.role === 'user' && (
           <div className="flex items-start gap-4 animate-fade-in">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-accent-foreground">
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
               <Bot className="w-5 h-5" />
             </div>
             <div className="flex items-center gap-2 p-3 rounded-lg bg-secondary text-secondary-foreground">

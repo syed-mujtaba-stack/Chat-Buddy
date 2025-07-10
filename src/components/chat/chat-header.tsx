@@ -7,7 +7,7 @@ import {
   FileJson,
   FileText,
   FileCode,
-  Bot,
+  GraduationCap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -30,8 +30,8 @@ export function ChatHeader({ onClear, onSave, settings }: ChatHeaderProps) {
     <header className="flex items-center justify-between p-4 border-b border-border">
       <div className="flex items-center gap-2">
         <SidebarTrigger className="md:hidden" />
-        <Bot className="w-6 h-6 text-accent" />
-        <h1 className="text-xl font-bold font-headline">AI Code Assistant</h1>
+        <GraduationCap className="w-6 h-6 text-primary" />
+        <h1 className="text-xl font-bold font-headline">AI Tutor</h1>
       </div>
       <div className="flex items-center gap-2">
         <DropdownMenu>

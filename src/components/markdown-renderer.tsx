@@ -14,7 +14,7 @@ export const MarkdownRenderer: FC<MarkdownRendererProps> = ({ content }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      className="prose prose-invert prose-p:whitespace-pre-wrap font-body"
+      className="prose prose-sm md:prose-base max-w-none prose-p:whitespace-pre-wrap font-body"
       components={{
         code({ node, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || '');

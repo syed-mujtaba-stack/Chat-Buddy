@@ -9,9 +9,9 @@ import { useToast } from '@/hooks/use-toast';
 import { ChatMessages } from '@/components/chat/chat-messages';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ChatHeader } from '@/components/chat/chat-header';
-import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction, SidebarSeparator, SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { MessageSquarePlus, Trash2 } from 'lucide-react';
+import { MessageSquarePlus, Trash2, Book, Code, Component } from 'lucide-react';
 import Link from 'next/link';
 
 const createNewSession = (): ChatSession => ({
@@ -20,10 +20,17 @@ const createNewSession = (): ChatSession => ({
   createdAt: new Date(),
 });
 
+const courses = [
+    { name: 'Python', icon: Code, path: '/course/python' },
+    { name: 'JavaScript', icon: Code, path: '/course/javascript' },
+    { name: 'C++', icon: Code, path: '/course/cplusplus' },
+    { name: 'React', icon: Component, path: '/course/react' },
+];
+
 export default function Home() {
   const { toast } = useToast();
   const [sessions, setSessions] = useLocalStorage<ChatSession[]>('chatSessions', [createNewSession()]);
-  const [activeSessionId, setActiveSessionId] = useLocalStorage<string | null>('activeChatSessionId', null);
+  const [activeSessionId, setActiveSessionId] = useLocalStorage<string | null>('activeChatSessionId', sessions[0]?.id ?? null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [audioPlayer, setAudioPlayer] = React.useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -31,10 +38,14 @@ export default function Home() {
 
   React.useEffect(() => {
     setIsClient(true);
-    if (sessions.length > 0 && !activeSessionId) {
+    if (!activeSessionId && sessions.length > 0) {
       setActiveSessionId(sessions[0].id);
+    } else if (sessions.length === 0) {
+        const newSession = createNewSession();
+        setSessions([newSession]);
+        setActiveSessionId(newSession.id);
     }
-  }, []); // Run only once on client mount
+  }, [sessions, activeSessionId, setSessions, setActiveSessionId]);
 
 
   const [apiKey, setApiKey] = useLocalStorage('apiKey', '');
@@ -44,7 +55,7 @@ export default function Home() {
   );
   const [systemPrompt, setSystemPrompt] = useLocalStorage(
     'systemPrompt',
-    'You are an expert AI code assistant. You can write, explain, and debug code in any programming language. Provide clear, concise, and accurate code examples and explanations. Format your responses in Markdown.'
+    'You are a friendly and encouraging AI Tutor. Your goal is to help users learn programming concepts. Explain topics clearly, provide simple code examples, and guide them through their learning journey. Your tone should be supportive and patient. Format your responses in Markdown.'
   );
 
   const activeSession = React.useMemo(() => {
@@ -57,9 +68,7 @@ export default function Home() {
   };
   
   const handleSendMessage = async (content: string, fileContent: string | null) => {
-    if (isLoading || !content.trim()) return;
-
-    if (!activeSession) return;
+    if (isLoading || !content.trim() || !activeSession) return;
 
     const userMessage: Message = { role: 'user', content };
     const newMessages = [...activeSession.messages, userMessage];
@@ -77,7 +86,8 @@ export default function Home() {
       updateSessionMessages(activeSession.id, result.updatedChatHistory);
     } catch (error) {
       console.error(error);
-      updateSessionMessages(activeSession.id, activeSession.messages); // Revert
+      const revertedMessages = activeSession.messages.filter(m => m.content !== content);
+      updateSessionMessages(activeSession.id, revertedMessages); 
       toast({
         variant: 'destructive',
         title: 'An Error Occurred',
@@ -128,7 +138,7 @@ export default function Home() {
     a.href = url;
     a.download = `chat-history-${activeSession.id}.${fileExtension}`;
     document.body.appendChild(a);
-    a.click();
+a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
@@ -233,61 +243,49 @@ export default function Home() {
     <div className="flex flex-row h-screen bg-background text-foreground">
       <Sidebar>
         <SidebarHeader>
-           <h2 className="text-lg font-semibold p-2">Chats</h2>
-          <Button variant="outline" onClick={handleNewSession} className="w-full">
-            <MessageSquarePlus className="mr-2" /> New Chat
-          </Button>
+            <h2 className="text-lg font-semibold p-2">AI Tutor</h2>
         </SidebarHeader>
         <SidebarContent>
-            <SidebarMenu>
-                {sessions.map(session => (
-                    <SidebarMenuItem key={session.id}>
-                        <SidebarMenuButton 
-                          isActive={session.id === activeSessionId} 
-                          onClick={() => setActiveSessionId(session.id)}
-                          className="justify-start w-full"
-                        >
-                            <span className="truncate flex-1 text-left">{session.messages[0]?.content || 'New Chat'}</span>
-                        </SidebarMenuButton>
-                        <SidebarMenuAction onClick={() => handleDeleteSession(session.id)}>
-                            <Trash2 />
-                        </SidebarMenuAction>
-                    </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
-        </SidebarContent>
-        <SidebarHeader>
-            <h2 className="text-lg font-semibold p-2">Features</h2>
-        </SidebarHeader>
-        <SidebarContent>
-            <SidebarMenu>
-                <SidebarMenuItem>
-                    <Link href="/" passHref>
-                       <SidebarMenuButton className="w-full justify-start" isActive={true}>
-                            Code Assistant
-                       </SidebarMenuButton>
-                    </Link>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                   <Link href="/image-generator" passHref>
-                       <SidebarMenuButton className="w-full justify-start">
-                            Image Generator
-                       </SidebarMenuButton>
-                   </Link>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                   <Link href="/story-generator" passHref>
-                       <SidebarMenuButton className="w-full justify-start">
-                            Story Generator
-                       </SidebarMenuButton>
-                   </Link>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <Link href="/data-analyst" passHref>
-                    <SidebarMenuButton className="w-full justify-start">Data Analyst</SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
-            </SidebarMenu>
+            <SidebarGroup>
+                <SidebarGroupLabel>Courses</SidebarGroupLabel>
+                <SidebarMenu>
+                    {courses.map(course => (
+                        <SidebarMenuItem key={course.path}>
+                            <Link href={course.path} passHref>
+                                <SidebarMenuButton className="w-full justify-start">
+                                    <course.icon className="w-4 h-4 mr-2" />
+                                    {course.name}
+                                </SidebarMenuButton>
+                            </Link>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroup>
+            <SidebarSeparator />
+            <SidebarGroup>
+                <div className="flex items-center justify-between">
+                    <SidebarGroupLabel>Chats</SidebarGroupLabel>
+                    <Button variant="ghost" size="icon" onClick={handleNewSession} className="h-7 w-7">
+                        <MessageSquarePlus className="w-4 h-4" />
+                    </Button>
+                </div>
+                <SidebarMenu>
+                    {sessions.map(session => (
+                        <SidebarMenuItem key={session.id}>
+                            <SidebarMenuButton 
+                              isActive={session.id === activeSessionId} 
+                              onClick={() => setActiveSessionId(session.id)}
+                              className="justify-start w-full"
+                            >
+                                <span className="truncate flex-1 text-left">{session.messages[0]?.content || 'New Chat'}</span>
+                            </SidebarMenuButton>
+                            <SidebarMenuAction onClick={() => handleDeleteSession(session.id)}>
+                                <Trash2 />
+                            </SidebarMenuAction>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroup>
         </SidebarContent>
       </Sidebar>
       <SidebarInset className="flex flex-col flex-1">

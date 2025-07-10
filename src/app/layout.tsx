@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toaster"
 import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const metadata: Metadata = {
-  title: 'AI Code Assistant',
-  description: 'An AI-powered assistant to help you write code in any language.',
+  title: 'AI Tutor',
+  description: 'An AI-powered tutor to help you learn programming.',
 };
 
 export default function RootLayout({
