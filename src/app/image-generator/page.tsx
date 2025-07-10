@@ -71,6 +71,13 @@ export default function ImageGeneratorPage() {
                            </SidebarMenuButton>
                        </Link>
                     </SidebarMenuItem>
+                    <SidebarMenuItem>
+                       <Link href="/story-generator" passHref>
+                           <SidebarMenuButton className="w-full justify-start">
+                                Story Generator
+                           </SidebarMenuButton>
+                       </Link>
+                    </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarContent>
         </Sidebar>
