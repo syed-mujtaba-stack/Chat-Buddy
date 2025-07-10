@@ -34,7 +34,7 @@ export default function Home() {
   );
   const [systemPrompt, setSystemPrompt] = useLocalStorage(
     'systemPrompt',
-    'You are Python Chat Buddy, an expert AI assistant for Python developers. Provide clear, concise, and accurate code examples and explanations. Format your responses in Markdown.'
+    'You are an expert AI code assistant. You can write, explain, and debug code in any programming language. Provide clear, concise, and accurate code examples and explanations. Format your responses in Markdown.'
   );
 
   const activeSession = React.useMemo(() => {
@@ -150,6 +150,7 @@ export default function Home() {
         chatHistory: historyWithoutLastAssistantResponse.filter(m => m.role !== 'user' || m.content !== lastUserMessage.content),
         systemPrompt,
         model,
+        fileContent: null,
       });
       updateSessionMessages(activeSession.id, result.updatedChatHistory);
     } catch (error) {

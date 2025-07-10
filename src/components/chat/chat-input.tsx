@@ -106,7 +106,7 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
           ref={fileInputRef}
           onChange={handleFileChange}
           className="hidden"
-          accept=".py,.txt,.md,.json,.html,.css,.js,.ts"
+          accept=".py,.txt,.md,.json,.html,.css,.js,.ts,.java,.cs,.cpp,.c,.go,.rs,.rb,.php"
         />
         <Button
           type="button"
@@ -123,7 +123,7 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask your Python question..."
+          placeholder="Ask me to write, explain, or fix some code..."
           className="flex-1 resize-none max-h-48"
           rows={1}
           disabled={isLoading}

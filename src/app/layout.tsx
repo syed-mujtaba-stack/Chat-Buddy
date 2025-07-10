@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toaster"
 import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const metadata: Metadata = {
-  title: 'Python Chat Buddy',
-  description: 'An AI-powered chat assistant for Python developers.',
+  title: 'AI Code Assistant',
+  description: 'An AI-powered assistant to help you write code in any language.',
 };
 
 export default function RootLayout({

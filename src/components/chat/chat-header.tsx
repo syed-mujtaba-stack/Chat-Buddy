@@ -31,7 +31,7 @@ export function ChatHeader({ onClear, onSave, settings }: ChatHeaderProps) {
       <div className="flex items-center gap-2">
         <SidebarTrigger className="md:hidden" />
         <Bot className="w-6 h-6 text-accent" />
-        <h1 className="text-xl font-bold font-headline">Python Chat Buddy</h1>
+        <h1 className="text-xl font-bold font-headline">AI Code Assistant</h1>
       </div>
       <div className="flex items-center gap-2">
         <DropdownMenu>

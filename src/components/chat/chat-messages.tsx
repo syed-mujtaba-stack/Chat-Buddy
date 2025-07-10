@@ -37,9 +37,9 @@ export function ChatMessages({ messages, isLoading, onRegenerate, onPlayAudio, i
         ) : (
           <div className="flex flex-col items-center justify-center h-[calc(100vh-150px)] text-center text-muted-foreground">
             <Bot className="w-16 h-16 mb-4 text-accent" />
-            <h2 className="text-2xl font-semibold">Welcome to Python Chat Buddy</h2>
+            <h2 className="text-2xl font-semibold">Welcome to your AI Code Assistant</h2>
             <p className="mt-2">
-              Start by typing a message below or adjust your settings.
+              Ask me to write, explain, or fix code in any language.
             </p>
           </div>
         )}
